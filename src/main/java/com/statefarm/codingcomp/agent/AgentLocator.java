@@ -1,14 +1,14 @@
 package com.statefarm.codingcomp.agent;
 
-import java.util.List;
-import java.util.Map;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
-
 import com.statefarm.codingcomp.bean.Agent;
 import com.statefarm.codingcomp.bean.USState;
 import com.statefarm.codingcomp.utilities.SFFileReader;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
+
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Map;
 
 /**
  * Only US Agents are applicable since State Farm is currently in the process of
@@ -32,7 +32,12 @@ public class AgentLocator {
 	 * @return
 	 */
 	public List<Agent> getAgentsByName(String firstName, String lastName) {
-		return null;
+		LinkedList<String> names = (LinkedList<String>)sfFileReader.findAgentFiles();
+		LinkedList<Agent> toReturn = new LinkedList<>();
+		for (String x : names) {
+			toReturn.add(agentParser.parseAgent(x));
+		}
+		return toReturn;
 	}
 
 	/**
@@ -42,7 +47,7 @@ public class AgentLocator {
 	 * @return
 	 */
 	public List<Agent> getAgentsByState(USState state) {
-		return null;
+		
 	}
 
 	public List<Agent> getAllAgents() {
